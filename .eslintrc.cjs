@@ -32,7 +32,7 @@ module.exports = {
       },
     ],
     'max-len': [
-      2,
+      4,
       250,
     ],
     'no-multiple-empty-lines': [
