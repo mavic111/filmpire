@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, createRoutesFromElements, RouterProvider, Route } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import App from './App';
 import { MovieInformation, Profiles, Actors, Movies } from './components';
 
@@ -15,8 +16,12 @@ const router = createBrowserRouter(
   ),
 );
 
+const theme = createTheme({});
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>,
 );
