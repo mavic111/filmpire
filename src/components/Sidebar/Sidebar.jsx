@@ -1,7 +1,9 @@
 import React from 'react';
-import { Divider, List, ListItemButton, ListSubheader, ListItemText, ListItemIcon } from '@mui/material';
+import { Divider, List, ListItemButton, ListSubheader, ListItemText, ListItemIcon, Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/system';
 import { ImageLink, Image, Links, GenreImage } from './styles';
+import { useGetGenresQuery } from '../../services/TMDB';
+import genreIcons from '../../assets/genres';
 
 const Sidebar = ({ setMobileOpen }) => {
   const theme = useTheme();
@@ -24,23 +26,7 @@ const Sidebar = ({ setMobileOpen }) => {
     },
   ];
 
-  const genres = [{
-    label: 'Comedy',
-    value: 'comedy',
-  },
-  {
-    label: 'Action',
-    value: 'action',
-  },
-  {
-    label: 'Horror',
-    value: 'horror',
-  },
-  {
-    label: 'Animation',
-    value: 'animation',
-  },
-  ];
+  const { data, isFetching } = useGetGenresQuery();
 
   return (
     <>
@@ -60,7 +46,7 @@ const Sidebar = ({ setMobileOpen }) => {
               onClick={() => setMobileOpen((prevMobileOpen) => !prevMobileOpen)}
             >
               <ListItemIcon>
-                <GenreImage src="" height={30} />
+                <GenreImage src={genreIcons[label.toLowerCase()]} height={30} />
               </ListItemIcon>
               <ListItemText primary={label} />
             </ListItemButton>
@@ -70,15 +56,19 @@ const Sidebar = ({ setMobileOpen }) => {
       <Divider />
       <List>
         <ListSubheader>Genres</ListSubheader>
-        {genres.map(({ label, value }) => (
-          <Links key={value} to="/">
+        {isFetching ? (
+          <Box display="flex" justifyContent="center">
+            <CircularProgress />
+          </Box>
+        ) : data.genres.map(({ id, name }) => (
+          <Links key={id} to="/">
             <ListItemButton
               onClick={() => setMobileOpen((prevMobileOpen) => !prevMobileOpen)}
             >
               <ListItemIcon>
-                <GenreImage src="" height={30} />
+                <GenreImage src={genreIcons[name.toLowerCase()]} height={30} />
               </ListItemIcon>
-              <ListItemText primary={label} />
+              <ListItemText primary={name} />
             </ListItemButton>
           </Links>
         ))}
