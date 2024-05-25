@@ -1,16 +1,19 @@
 import React from 'react';
 import { Divider, List, ListItemButton, ListSubheader, ListItemText, ListItemIcon, Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/system';
+import { useDispatch, useSelector } from 'react-redux';
 import { ImageLink, Image, Links, GenreImage } from './styles';
 import { useGetGenresQuery } from '../../services/TMDB';
 import genreIcons from '../../assets/genres';
+import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 
 const Sidebar = ({ setMobileOpen }) => {
   const theme = useTheme();
 
   const redLogo = 'https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png';
   const blueLogo = 'https://fontmeme.com/permalink/210930/6854ae5c7f76597cf8680e48a2c8a50a.png';
-
+  // Retrieve state from Redux store
+  const { genreIdOrCategoryName } = useSelector((state) => state.currentGenreOrCategory);
   const categories = [
     {
       label: 'Popular',
@@ -27,6 +30,7 @@ const Sidebar = ({ setMobileOpen }) => {
   ];
 
   const { data, isFetching } = useGetGenresQuery();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -43,7 +47,7 @@ const Sidebar = ({ setMobileOpen }) => {
         {categories.map(({ label, value }) => (
           <Links key={value} to="/">
             <ListItemButton
-              onClick={() => setMobileOpen((prevMobileOpen) => !prevMobileOpen)}
+              onClick={() => dispatch(selectGenreOrCategory(value))}
             >
               <ListItemIcon>
                 <GenreImage src={genreIcons[label.toLowerCase()]} height={30} />
@@ -63,7 +67,7 @@ const Sidebar = ({ setMobileOpen }) => {
         ) : data.genres.map(({ id, name }) => (
           <Links key={id} to="/">
             <ListItemButton
-              onClick={() => setMobileOpen((prevMobileOpen) => !prevMobileOpen)}
+              onClick={() => dispatch(selectGenreOrCategory(id))}
             >
               <ListItemIcon>
                 <GenreImage src={genreIcons[name.toLowerCase()]} height={30} />
