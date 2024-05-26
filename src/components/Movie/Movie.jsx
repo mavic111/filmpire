@@ -12,6 +12,10 @@ const Movie = ({ movie, i }) => (
     xl={2}
     sx={{
       padding: '10px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      cursor: 'pointer',
     }}
   >
     <Grow in key={i} timeout={(1 + i) * 250}>

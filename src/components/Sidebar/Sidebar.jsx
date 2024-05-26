@@ -1,7 +1,7 @@
 import React from 'react';
 import { Divider, List, ListItemButton, ListSubheader, ListItemText, ListItemIcon, Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/system';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ImageLink, Image, Links, GenreImage } from './styles';
 import { useGetGenresQuery } from '../../services/TMDB';
 import genreIcons from '../../assets/genres';
@@ -12,8 +12,7 @@ const Sidebar = ({ setMobileOpen }) => {
 
   const redLogo = 'https://fontmeme.com/permalink/210930/8531c658a743debe1e1aa1a2fc82006e.png';
   const blueLogo = 'https://fontmeme.com/permalink/210930/6854ae5c7f76597cf8680e48a2c8a50a.png';
-  // Retrieve state from Redux store
-  const { genreIdOrCategoryName } = useSelector((state) => state.currentGenreOrCategory);
+
   const categories = [
     {
       label: 'Popular',

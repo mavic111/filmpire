@@ -4,6 +4,7 @@ import { Menu, Brightness7, Brightness4, AccountCircle } from '@mui/icons-materi
 import { Link } from 'react-router-dom';
 import { NavDrawer } from './styles';
 import Sidebar from '../Sidebar/Sidebar';
+import Search from '../Search/Search';
 
 const NavBar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -13,15 +14,17 @@ const NavBar = () => {
   return (
     <>
       <AppBar position="fixed">
-        <Toolbar sx={{
-          height: '80px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginLeft: '240px',
-          [theme.breakpoints.down('sm')]: {
-            marginLeft: 0,
-          },
-        }}
+        <Toolbar
+          sx={{
+            height: '80px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginLeft: '240px',
+            [theme.breakpoints.down('sm')]: {
+              flexWrap: 'wrap',
+              marginLeft: 0,
+            },
+          }}
         >
           {isMobile && (
           <IconButton
@@ -46,7 +49,7 @@ const NavBar = () => {
           >
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
-          {!isMobile && 'Search...' }
+          {!isMobile && <Search /> }
           <div>
             {!isAuthenticated ? (
               <Button
@@ -77,6 +80,7 @@ const NavBar = () => {
               </Button>
             )}
           </div>
+          {isMobile && <Search /> }
         </Toolbar>
       </AppBar>
       <div>
