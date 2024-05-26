@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, useMediaQuery, IconButton, useTheme, Button, Avatar, Drawer } from '@mui/material';
+import { AppBar, useMediaQuery, useTheme, Button, Avatar, Drawer } from '@mui/material';
 import { Menu, Brightness7, Brightness4, AccountCircle } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { NavDrawer } from './styles';
+import { NavDrawer, AppToolbar, MenuButton, ThemeToggle } from './styles';
 import Sidebar from '../Sidebar/Sidebar';
 import Search from '../Search/Search';
 
@@ -14,41 +14,23 @@ const NavBar = () => {
   return (
     <>
       <AppBar position="fixed">
-        <Toolbar
-          sx={{
-            height: '80px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginLeft: '240px',
-            [theme.breakpoints.down('sm')]: {
-              flexWrap: 'wrap',
-              marginLeft: 0,
-            },
-          }}
-        >
+        <AppToolbar>
           {isMobile && (
-          <IconButton
+          <MenuButton
             color="inherit"
             edge="start"
             style={{ outline: 'none' }}
             onClick={() => setMobileOpen((prevMobileOpen) => !prevMobileOpen)}
-            sx={{
-              marginRight: theme.spacing(2),
-              [theme.breakpoints.up('sm')]: {
-                display: 'none',
-              },
-            }}
           >
             <Menu />
-          </IconButton>
+          </MenuButton>
           )}
-          <IconButton
+          <ThemeToggle
             color="inherit"
-            sx={{ ml: 1 }}
             onClick={() => {}}
           >
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
+          </ThemeToggle>
           {!isMobile && <Search /> }
           <div>
             {!isAuthenticated ? (
@@ -81,20 +63,19 @@ const NavBar = () => {
             )}
           </div>
           {isMobile && <Search /> }
-        </Toolbar>
+        </AppToolbar>
       </AppBar>
       <div>
         <NavDrawer>
           {isMobile ? (
             <Drawer
               variant="temporary"
-              anchor="right"
+              anchor="left"
               open={mobileOpen}
               onClose={() => setMobileOpen((prevMobileOpen) => !prevMobileOpen)}
-              classes={{
-                // drawerPaper
-                paper: {
-                  width: '240px',
+              sx={{
+                '.MuiDrawer-paper': {
+                  width: 240,
                 },
               }}
               ModalProps={{ keepMounted: true }}
@@ -105,7 +86,11 @@ const NavBar = () => {
           ) : (
             <Drawer
               variant="permanent"
-              classes={{ paper: {} }}
+              sx={{
+                '.MuiDrawer-paper': {
+                  width: 240,
+                },
+              }}
               open
             >
               <Sidebar setMobileOpen={setMobileOpen} />
