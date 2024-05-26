@@ -2,7 +2,7 @@ import React from 'react';
 import { Divider, List, ListItemButton, ListSubheader, ListItemText, ListItemIcon, Box, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/system';
 import { useDispatch } from 'react-redux';
-import { ImageLink, Image, Links, GenreImage } from './styles';
+import { ImageLink, LogoImage, Links, IconImage } from './styles';
 import { useGetGenresQuery } from '../../services/TMDB';
 import genreIcons from '../../assets/genres';
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
@@ -34,7 +34,7 @@ const Sidebar = ({ setMobileOpen }) => {
   return (
     <>
       <ImageLink to="/">
-        <Image
+        <LogoImage
           sx={{}}
           src={theme.palette.mode === 'light' ? redLogo : blueLogo}
           alt="Filmpire Logo"
@@ -49,7 +49,7 @@ const Sidebar = ({ setMobileOpen }) => {
               onClick={() => dispatch(selectGenreOrCategory(value))}
             >
               <ListItemIcon>
-                <GenreImage src={genreIcons[label.toLowerCase()]} height={30} />
+                <IconImage src={genreIcons[label.toLowerCase()]} height={30} />
               </ListItemIcon>
               <ListItemText primary={label} />
             </ListItemButton>
@@ -69,7 +69,7 @@ const Sidebar = ({ setMobileOpen }) => {
               onClick={() => dispatch(selectGenreOrCategory(id))}
             >
               <ListItemIcon>
-                <GenreImage src={genreIcons[name.toLowerCase()]} height={30} />
+                <IconImage src={genreIcons[name.toLowerCase()]} height={30} />
               </ListItemIcon>
               <ListItemText primary={name} />
             </ListItemButton>
