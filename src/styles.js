@@ -13,17 +13,3 @@ export const Content = styled('main')({
 export const Toolbar = styled('div')({
   height: '70px',
 });
-
-export default styled(() => ({
-  root: {
-    display: 'flex',
-    height: '100%',
-  },
-  content: {
-    flexGrow: '1',
-    padding: '2em',
-  },
-  toolbar: {
-    height: '70px',
-  },
-}));
