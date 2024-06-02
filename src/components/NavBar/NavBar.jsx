@@ -70,7 +70,7 @@ const NavBar = () => {
               <Button
                 color="inherit"
                 component={Link}
-                to={`/profiles/${user.id}`}
+                to={`/profile/${user.id}`}
                 sx={{
                   '&:hover': {
                     color: 'white !important',

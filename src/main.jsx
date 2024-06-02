@@ -11,9 +11,9 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="/" element={<Movies />} />
+      <Route path="/profile/:id" element={<Profiles />} />
       <Route path="/movies/:id" element={<MovieInformation />} />
       <Route path="/actors/:id" element={<Actors />} />
-      <Route path="/profiles/:id" element={<Profiles />} />
       <Route
         path="*"
         element={<Navigate to="/" replace />}
