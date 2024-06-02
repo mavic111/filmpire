@@ -1,16 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, useMediaQuery, useTheme, Button, Avatar, Drawer } from '@mui/material';
 import { Menu, Brightness7, Brightness4, AccountCircle } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavDrawer, AppToolbar, MenuButton, ThemeToggle } from './styles';
 import Sidebar from '../Sidebar/Sidebar';
 import Search from '../Search/Search';
+import { createSessionId, fetchToken, moviesApi } from '../../utils';
+import { setUser } from '../../features/auth';
 
 const NavBar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width:600px)');
   const theme = useTheme();
-  const isAuthenticated = false;
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const token = localStorage.getItem('request_token');
+  const sessionIdFromLocalStorage = localStorage.getItem('session_id');
+
+  useEffect(() => {
+    const logInUser = async () => {
+      if (token) {
+        if (sessionIdFromLocalStorage) {
+          // Get user data
+          // https://developer.themoviedb.org/reference/account-details
+          const { data: UserData } = await moviesApi.get(`/account?session_id=${sessionIdFromLocalStorage}`);
+          dispatch(setUser(UserData));
+        } else {
+          // Create session_id
+          const sessionId = await createSessionId();
+          const { data: UserData } = await moviesApi.get(`/account?session_id=${sessionId}`);
+          dispatch(setUser(UserData));
+        }
+      }
+    };
+    logInUser();
+  }, [dispatch, sessionIdFromLocalStorage, token]);
+
   return (
     <>
       <AppBar position="fixed">
@@ -36,7 +62,7 @@ const NavBar = () => {
             {!isAuthenticated ? (
               <Button
                 color="inherit"
-                onClick={() => {}}
+                onClick={fetchToken}
               >
                 Login &nbsp;<AccountCircle />
               </Button>
@@ -44,7 +70,7 @@ const NavBar = () => {
               <Button
                 color="inherit"
                 component={Link}
-                to="/profiles/:id"
+                to={`/profiles/${user.id}`}
                 sx={{
                   '&:hover': {
                     color: 'white !important',
